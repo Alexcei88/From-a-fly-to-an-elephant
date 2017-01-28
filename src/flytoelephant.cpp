@@ -76,7 +76,6 @@ const std::vector<std::string> FlyToElephant::Execute()
         }
     }
 
-
     if(endWorld->GetParent() == nullptr)
     {
         // мы не смогли найти путь до получения слова
