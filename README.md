@@ -4,7 +4,9 @@ Test work
 # BUILD
 
 
+
 ```
+mkdir BUILD
 cd BUILD
 cmake ../
 make
