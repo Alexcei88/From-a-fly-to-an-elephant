@@ -3,15 +3,13 @@ Test work
 
 # BUILD
 
-
-
 ```
 mkdir BUILD
 cd BUILD
 cmake ../
 make
 
-// run test
+// run unit-tests
 make test
 
 ```

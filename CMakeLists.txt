@@ -22,7 +22,7 @@ add_subdirectory (src)
 add_executable(${PROJECT} src/main.cpp)
 
 target_link_libraries (${PROJECT}
-		       libflyandanelephant)
+                       libflyandanelephant)
 
 
 #Setup CMake to run tests

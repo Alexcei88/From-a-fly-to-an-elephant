@@ -1,10 +1,11 @@
 #include <queue>
 #include <algorithm>
+#include <exception>
+
 
 #include "flytoelephant.h"
 #include "world.h"
 #include "heuristicestimator/myheuristicestimator.h"
-
 
 using namespace std;
 
@@ -14,9 +15,16 @@ FlyToElephant::FlyToElephant(  const string& initWorld
     : _initWorld(initWorld)
     , _endWorld(endWorld)
 {
+    const size_t initWorldLength = initWorld.length();
+
     for(const string& w : dictionary)
     {
-        _dictWorld[w] = false;
+        // Так как по заданию в результрующей цепочке длины слов совпадает с длиной исходного слова
+        // то сразу же убираем все слова, которые не совпадают с длиной
+        if(w.length() == initWorldLength)
+        {
+            _dictWorld[w] = false;
+        }
     }
 }
 
@@ -51,7 +59,7 @@ const std::vector<std::string> FlyToElephant::Execute()
         auto currentWorld = queueWorld.front();
         queueWorld.pop();
 
-        // 6. иначе получаем список доступных мутации от текущего слова и добавляем их в очередь
+        // 6. получаем список доступных мутации от текущего слова(которые отличаются на одну букву)
         auto mutation = GetMutationForWorld(currentWorld.get());
 
         // 7. сортируем мутации с помощью эвристической анализатора
@@ -73,13 +81,14 @@ const std::vector<std::string> FlyToElephant::Execute()
             }
 
             queueWorld.push(w);
+            allWorlds.push_back(w);
         }
     }
 
-    if(endWorld->GetParent() == nullptr)
+    if(!findEndWorld)
     {
         // мы не смогли найти путь до получения слова
-        throw new std::exception();
+        throw std::exception();
     }
 
     // формируем итоговую последовательность
@@ -90,6 +99,7 @@ const std::vector<std::string> FlyToElephant::Execute()
         result.push_back(curParentPtr->GetWorld());
         curParentPtr = curParentPtr->GetParent();
     }
+    allWorlds.clear();
 
     std::reverse(result.begin(), result.end());
     return result;

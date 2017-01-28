@@ -34,16 +34,8 @@ const std::string& World::GetWorld() const
 
 bool World::IsOneDegreeMutation(const string& world) const
 {
-    const int otherLength = world.length();
-
-    const int diffLength = fabs(_lengthWorld - otherLength);
-
-    // если слова отличаются длиной, то эти слова откидываем, так как согласно заданию, все промежуточные слова должны состоять из одинакового количества букв
-    if(diffLength > 0)
-        return false;
-
     int diffCount = 0;
-    for(int i = 0; i < otherLength; ++i)
+    for(int i = 0; i < _lengthWorld; ++i)
     {
         if(_world[i] != world[i])
         {
