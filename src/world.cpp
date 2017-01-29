@@ -17,11 +17,6 @@ bool World::operator == (const World& world)
     return this->_world == world._world;
 }
 
-void World::AddMutation(const World* world)
-{
-    _mutationWorlds.push_back(world);
-}
-
 const World* World::GetParent() const
 {
     return _parent;

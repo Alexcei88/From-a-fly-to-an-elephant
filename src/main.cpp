@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
     }
 
     FlyToElephant* el = new FlyToElephant(initWorld, endWorld, dictWorld);
+    // словарь слов больше не нужен, очищаем, чтобы память не занимал
+    dictWorld.clear();
 
     auto result =  el->Execute();
     for(const std::string& s : result)

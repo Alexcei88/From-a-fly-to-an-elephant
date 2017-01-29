@@ -15,6 +15,7 @@ FlyToElephant::FlyToElephant(  const string& initWorld
     : _initWorld(initWorld)
     , _endWorld(endWorld)
 {
+
     const size_t initWorldLength = initWorld.length();
 
     for(const string& w : dictionary)
@@ -23,7 +24,7 @@ FlyToElephant::FlyToElephant(  const string& initWorld
         // то сразу же убираем все слова, которые не совпадают с длиной
         if(w.length() == initWorldLength)
         {
-            _dictWorld[w] = false;
+            _dictWorld.push_back(w);
         }
     }
 }
@@ -33,10 +34,13 @@ FlyToElephant::FlyToElephant(  const string& initWorld
  * @return
  */
 const std::vector<std::string> FlyToElephant::Execute()
-{
+{    
+    // 0. инициализируем список слов, с которым будем работать
+    std::copy( _dictWorld.begin(), _dictWorld.end(), std::back_inserter( _curDictWorld ) );
+
     // 1. начальное слово
     std::shared_ptr<World> startWorld = std::make_shared<World>(_initWorld);
-    _dictWorld[_initWorld] = true;
+    _curDictWorld.remove(_initWorld);
     std::shared_ptr<World> endWorld = std::make_shared<World>(_endWorld);
 
     // 2. Инициализируем эвристический анализатор
@@ -109,16 +113,18 @@ const std::vector<std::string> FlyToElephant::Execute()
 std::vector<std::shared_ptr<World>> FlyToElephant::GetMutationForWorld(const World* world)
 {
     std::vector<std::shared_ptr<World>> result;
-    typedef std::map<const std::string, bool>::iterator it_type;
-    for(it_type iterator = _dictWorld.begin(); iterator != _dictWorld.end(); iterator++)
+
+    auto i = std::begin(_curDictWorld);
+    while (i != std::end(_curDictWorld))
     {
-        if(iterator->second == false)
+        if(world->IsOneDegreeMutation(*i))
         {
-            if(world->IsOneDegreeMutation(iterator->first))
-            {
-                iterator->second = true;
-                result.push_back( std::make_shared<World>(iterator->first, world));
-            }
+            result.push_back( std::make_shared<World>(*i, world));
+            _curDictWorld.erase(i++);
+        }
+        else
+        {
+            ++i;
         }
     }
     return result;

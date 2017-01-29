@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(FromExampleTestWork)
     dictWorld.push_back("ТОТ");
 
     FlyToElephant* el = new FlyToElephant("КОТ", "ТОН", dictWorld);
-
+    dictWorld.clear();
     std::vector<std::string> result;
 
     BOOST_CHECK_NO_THROW(result =  el->Execute());
@@ -50,6 +50,7 @@ BOOST_AUTO_TEST_CASE(NOTFoundElephant)
     dictWorld.push_back("ТОK");
 
     FlyToElephant* el = new FlyToElephant("КОТ", "ТОН", dictWorld);
+    dictWorld.clear();
     BOOST_CHECK_THROW(el->Execute(), std::exception);
 
     delete el;
@@ -57,7 +58,7 @@ BOOST_AUTO_TEST_CASE(NOTFoundElephant)
 }
 
 
-BOOST_AUTO_TEST_CASE(MoreBigFlyToElephant)
+BOOST_AUTO_TEST_CASE(MoreBigFlyToElephantWithRepair)
 {
     std::vector<std::string> dictWorld;
     dictWorld.push_back("РОКОТ");
@@ -122,8 +123,25 @@ BOOST_AUTO_TEST_CASE(MoreBigFlyToElephant)
     dictWorld.push_back("РОТА");
     dictWorld.push_back("ТОK");
 
-    FlyToElephant* el = new FlyToElephant("РОКОТ", "НАЛОГ", dictWorld);
+    FlyToElephant* el = new FlyToElephant("РОКОТ", "НАЛОГ", dictWorld);    
+    dictWorld.clear();
+
     std::vector<std::string> result;
+
+    BOOST_CHECK_NO_THROW(result = el->Execute());
+
+    BOOST_REQUIRE(result.size() == 9);
+
+    BOOST_REQUIRE(result[0] == "РОКОТ");
+    BOOST_REQUIRE(result[1] == "РОБОТ");
+    BOOST_REQUIRE(result[2] == "ХОБОТ");
+    BOOST_REQUIRE(result[3] == "ХОЛОТ");
+    BOOST_REQUIRE(result[4] == "МОЛОТ");
+    BOOST_REQUIRE(result[5] == "МОЛОП");
+    BOOST_REQUIRE(result[6] == "МАЛОП");
+    BOOST_REQUIRE(result[7] == "НАЛОП");
+    BOOST_REQUIRE(result[8] == "НАЛОГ");
+
 
     BOOST_CHECK_NO_THROW(result = el->Execute());
 
