@@ -8,6 +8,31 @@
 #include <exception>
 
 #include "flytoelephant.h"
+#include "world.h"
+
+BOOST_AUTO_TEST_SUITE(TestOneMutation)
+
+BOOST_AUTO_TEST_CASE(CheckEqualMutation)
+{
+    World* w = new World("мура", nullptr);
+    BOOST_REQUIRE(w->IsOneDegreeMutation("тура") == true);
+
+    delete w;
+    w = nullptr;
+
+}
+
+BOOST_AUTO_TEST_CASE(CheckNotEqualMutation)
+{
+    World* w = new World("мура", nullptr);
+    BOOST_REQUIRE(w->IsOneDegreeMutation("турв") == false);
+
+    delete w;
+    w = nullptr;
+
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(TestFlyToElephant)
 

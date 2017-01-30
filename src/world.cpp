@@ -30,9 +30,9 @@ const std::string& World::GetWorld() const
 bool World::IsOneDegreeMutation(const string& world) const
 {
     int diffCount = 0;
-    for(int i = 0; i < _lengthWorld; ++i)
+    for(int i = 0; i < _lengthWorld; i = i + 2)
     {
-        if(_world[i] != world[i])
+        if(_world[i] != world[i] || _world[i + 1] != world[i + 1])
         {
             ++diffCount;
         }
