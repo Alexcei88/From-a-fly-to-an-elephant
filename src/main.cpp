@@ -30,7 +30,18 @@ int main(int argc, char *argv[])
     {
         dictWorld.push_back(line);
     }
+/*
+    const int length = initWorld.length();
+    std::ofstream oworldFile(argv[3]);
+    for(std::string l : dictWorld)
+    {
+        if(l.length() == length)
+        {
+            oworldFile << l <<std::endl;
+        }
+    }
 
+*/
     FlyToElephant* el = new FlyToElephant(initWorld, endWorld, dictWorld);
     // словарь слов больше не нужен, очищаем, чтобы память не занимал
     dictWorld.clear();
